@@ -1,0 +1,40 @@
+{
+  "name": "root",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "backend": "pnpm --filter backend dev",
+    "frontend": "pnpm --filter frontend dev",
+    "lint": "pnpm --filter backend lint && pnpm --filter frontend lint",
+    "lint:fix": "pnpm --filter backend lint:fix && pnpm --filter frontend lint:fix",
+    "prettier:fix": "prettier ./backend --write && prettier ./frontend/src --write",
+    "husky:prepare": "pnpm husky && pnpm husky:add-precommit && pnpm husky:add-prepush",
+    "husky:add-precommit": "powershell -Command \"New-Item -Path .husky/pre-commit -ItemType File -Force; Set-Content -Path .husky/pre-commit -Value 'pnpm lint-staged && pnpm lint && echo Committing finished'\"",
+    "husky:add-prepush": "powershell -Command \"New-Item -Path .husky/pre-push -ItemType File -Force; Set-Content -Path .husky/pre-push -Value 'pnpm lint && echo Pushing finished'\""
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "pnpm lint:fix"
+    ],
+    "*.{json,md,yml,yaml,css,scss,js,ts,jsx,tsx}": [
+      "pnpm prettier:fix"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.6.2",
+  "dependencies": {
+    "wait-on": "^8.0.3"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "prettier": "3.5.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-tailwindcss": "^0.6.11"
+  }
+}
